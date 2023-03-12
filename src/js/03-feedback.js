@@ -40,8 +40,8 @@ function populateTaxtearea() {
 
   if (savedFeedback) {
     for (const key of Object.keys(savedFeedback)) {
-      form.elements[key].value = savedFeedback[key];
-      formData[key] = savedFeedback[key];
+      form.elements[key].value = savedFeedback[key] || '';
+      formData[key] = savedFeedback[key] || '';
     }
   }
 }
