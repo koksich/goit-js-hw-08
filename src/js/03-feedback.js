@@ -3,27 +3,27 @@ import throttle from 'lodash.throttle';
 const form = document.querySelector('.feedback-form');
 
 const STORAGE_KEY = 'feedback-form-state';
-const formData = {};
+let formData = {};
 
 form.addEventListener('submit', onFormSubmit);
 form.addEventListener('input', throttle(onFormElemInput, 500));
 
 populateTaxtearea();
 
-function onFormSubmit(event) {
-  event.preventDefault();
-
-  event.currentTarget.reset();
-  localStorage.removeItem(STORAGE_KEY);
-
-  console.log(formData);
-}
-
 // збереження складної форми в LocalStorage
 function onFormElemInput(event) {
   formData[event.target.name] = event.target.value;
-
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+}
+
+function onFormSubmit(event) {
+  event.preventDefault();
+
+  console.log(formData);
+  formData = {};
+
+  event.currentTarget.reset();
+  localStorage.removeItem(STORAGE_KEY);
 }
 
 // //  для збереження одного елементу форми в LocalStorage
@@ -40,8 +40,8 @@ function populateTaxtearea() {
 
   if (savedFeedback) {
     for (const key of Object.keys(savedFeedback)) {
-      form.elements[key].value = savedFeedback[key] || '';
-      formData[key] = savedFeedback[key] || '';
+      form.elements[key].value = savedFeedback[key];
+      formData[key] = savedFeedback[key];
     }
   }
 }
